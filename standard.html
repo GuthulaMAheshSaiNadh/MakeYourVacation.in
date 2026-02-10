@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Makeyourvacation.in | Standard Packages</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="standard-theme">
+    <header class="site-header">
+      <div>
+        <p class="brand-tag">Affordable Comfort Trips</p>
+        <h1>Makeyourvacation.in</h1>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="standard.html" class="active">Standard</a>
+        <a href="luxury.html">Luxary</a>
+        <a href="super-luxury.html">Super Luxary</a>
+      </nav>
+    </header>
+
+    <main class="content-wrapper">
+      <section class="intro-card">
+        <h2>Standard Packages for Smart Travelers</h2>
+        <p>
+          This page is designed for middle-class and standard-friendly travel planning:
+          simple, user friendly, and packed with great value destinations.
+        </p>
+        <button id="openAiAssistant" class="primary-btn">Talk to AI Travel Helper</button>
+      </section>
+
+      <section class="packages-section">
+        <h3>Popular Standard Packages (Itinerary Without Days)</h3>
+        <div class="category-grid">
+          <article>
+            <h4>MOUNTAINS & HILL STATIONS</h4>
+            <ul>
+              <li><strong>Manali Hill Escape:</strong> Manali, Solang Valley, Rohtang Pass, Atal Tunnel, Kullu, Manikaran</li>
+              <li><strong>Shimla – Kufri Delight:</strong> Shimla, Kufri, Green Valley, Jakhoo Temple</li>
+              <li><strong>Munnar Nature Retreat:</strong> Munnar, Tea Gardens, Eravikulam National Park, Mattupetty Dam, Echo Point</li>
+              <li><strong>Coorg Coffee Trails:</strong> Coorg, Abbey Falls, Dubare Elephant Camp, Raja’s Seat</li>
+              <li><strong>Darjeeling Himalayan Tour:</strong> Darjeeling, Tiger Hill, Tea Estates, Ropeway</li>
+            </ul>
+          </article>
+
+          <article>
+            <h4>BEACH HOLIDAY PACKAGES</h4>
+            <ul>
+              <li><strong>Goa Fun Holiday:</strong> Goa, North Goa Beaches, South Goa Beaches</li>
+              <li><strong>Varkala – Kovalam Beach Escape:</strong> Varkala, Kovalam</li>
+              <li><strong>Andaman Island Tour:</strong> Andaman & Nicobar Islands, Port Blair, Havelock Island, Neil Island, Ross Island</li>
+              <li><strong>Gokarna Spiritual Beach Tour:</strong> Gokarna, Om Beach, Kudle Beach, Half Moon Beach, Paradise Beach</li>
+            </ul>
+          </article>
+
+          <article>
+            <h4>PILGRIMAGE & SPIRITUAL PACKAGES</h4>
+            <ul>
+              <li><strong>Tirupati Balaji Darshan:</strong> Tirupati, Tirumala</li>
+              <li><strong>Kashi – Prayagraj – Ayodhya:</strong> Varanasi, Prayagraj, Ayodhya</li>
+              <li><strong>Vaishno Devi Yatra:</strong> Vaishno Devi, Katra</li>
+              <li><strong>South India Temple Tour:</strong> Rameswaram, Madurai, Tirupati</li>
+            </ul>
+          </article>
+
+          <article>
+            <h4>HERITAGE & CULTURAL PACKAGES</h4>
+            <ul>
+              <li><strong>Rajasthan Royal Tour:</strong> Jaipur, Jodhpur, Udaipur</li>
+              <li><strong>Agra Heritage Tour:</strong> Agra</li>
+              <li><strong>Hampi Historical Tour:</strong> Hampi</li>
+            </ul>
+          </article>
+
+          <article>
+            <h4>ADVENTURE & ROAD TRIP PACKAGES</h4>
+            <ul>
+              <li><strong>Leh – Ladakh Adventure:</strong> Leh, Nubra Valley, Pangong Lake, Khardung La</li>
+              <li><strong>Spiti Valley Road Trip:</strong> Spiti Valley, Kaza, Key Monastery, Chandratal</li>
+              <li><strong>Coastal Karnataka Road Trip:</strong> Murudeshwar, Gokarna, Honnavar, Jog Falls, Yana Caves</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <div id="aiModal" class="ai-modal" aria-hidden="true">
+      <div class="ai-box">
+        <div class="ai-header">
+          <h3>AI Travel Helper</h3>
+          <button id="closeAiAssistant" aria-label="Close AI chat">×</button>
+        </div>
+        <p class="ai-prompt">Hello 👋 Where do you want to go? Tell me your plan and budget style.</p>
+        <div id="chatLog" class="chat-log"></div>
+        <form id="chatForm" class="chat-form">
+          <input id="chatInput" type="text" placeholder="Type your destination, interests, budget, etc." required />
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
