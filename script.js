@@ -1,9 +1,3 @@
-const modal = document.getElementById("aiModal");
-const openBtn = document.getElementById("openAiAssistant");
-const closeBtn = document.getElementById("closeAiAssistant");
-const chatForm = document.getElementById("chatForm");
-const chatInput = document.getElementById("chatInput");
-const chatLog = document.getElementById("chatLog");
 const dynamicHero = document.getElementById("dynamicHero");
 
 const heroImages = [
@@ -21,74 +15,128 @@ if (dynamicHero) {
   }, 4000);
 }
 
-if (openBtn && modal) {
-  openBtn.addEventListener("click", () => {
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden", "false");
-    chatInput?.focus();
-    addAIMessage("Great! Please tell me: destination type, people count, budget style, and total days. I will suggest package + places + itinerary.");
+const standardPackages = [
+  ["Manali Hill Escape", "mountains", "economy", ["solo", "couple", "family", "friends"], ["Manali", "Solang Valley", "Rohtang Pass", "Atal Tunnel", "Kullu", "Manikaran"]],
+  ["Shimla – Kufri Delight", "mountains", "value", ["couple", "family", "friends"], ["Shimla", "Kufri", "Green Valley", "Jakhoo Temple"]],
+  ["Munnar Nature Retreat", "mountains", "value", ["solo", "couple", "family"], ["Munnar", "Tea Gardens", "Eravikulam National Park", "Mattupetty Dam", "Echo Point"]],
+  ["Coorg Coffee Trails", "mountains", "value", ["couple", "family", "friends"], ["Coorg", "Abbey Falls", "Dubare Elephant Camp", "Raja’s Seat"]],
+  ["Darjeeling Himalayan Tour", "mountains", "premium", ["solo", "couple", "family"], ["Darjeeling", "Tiger Hill", "Tea Estates", "Ropeway"]],
+  ["Goa Fun Holiday", "beach", "value", ["couple", "family", "friends"], ["Goa", "North Goa Beaches", "South Goa Beaches"]],
+  ["Varkala – Kovalam Beach Escape", "beach", "economy", ["solo", "couple", "family"], ["Varkala", "Kovalam"]],
+  ["Andaman Island Tour", "beach", "premium", ["couple", "family", "friends"], ["Port Blair", "Havelock Island", "Neil Island", "Ross Island"]],
+  ["Gokarna Spiritual Beach Tour", "beach", "economy", ["solo", "friends", "couple"], ["Gokarna", "Om Beach", "Kudle Beach", "Half Moon Beach", "Paradise Beach"]],
+  ["Tirupati Balaji Darshan", "pilgrimage", "economy", ["family", "couple", "solo"], ["Tirupati", "Tirumala"]],
+  ["Kashi – Prayagraj – Ayodhya", "pilgrimage", "value", ["family", "solo"], ["Varanasi", "Prayagraj", "Ayodhya"]],
+  ["Vaishno Devi Yatra", "pilgrimage", "value", ["family", "solo", "friends"], ["Vaishno Devi", "Katra"]],
+  ["South India Temple Tour", "pilgrimage", "premium", ["family", "couple"], ["Rameswaram", "Madurai", "Tirupati"]],
+  ["Rajasthan Royal Tour", "heritage", "premium", ["couple", "family", "friends"], ["Jaipur", "Jodhpur", "Udaipur"]],
+  ["Agra Heritage Tour", "heritage", "economy", ["solo", "couple", "family"], ["Agra"]],
+  ["Hampi Historical Tour", "heritage", "value", ["solo", "couple", "friends"], ["Hampi"]],
+  ["Leh – Ladakh Adventure", "adventure", "premium", ["friends", "solo", "couple"], ["Leh", "Nubra Valley", "Pangong Lake", "Khardung La"]],
+  ["Spiti Valley Road Trip", "adventure", "premium", ["friends", "solo"], ["Spiti Valley", "Kaza", "Key Monastery", "Chandratal"]],
+  ["Coastal Karnataka Road Trip", "adventure", "value", ["friends", "family", "couple"], ["Murudeshwar", "Gokarna", "Honnavar", "Jog Falls", "Yana Caves"]]
+].map(([name, category, budget, travelTypes, places]) => ({
+  name,
+  category,
+  budget,
+  travelTypes,
+  places,
+  itineraryDays: [3, 5, 7, 10],
+  minDays: 2,
+  maxDays: 30
+}));
+
+const packageGrid = document.getElementById("packageGrid");
+const budgetFilter = document.getElementById("budgetFilter");
+const travelTypeFilter = document.getElementById("travelTypeFilter");
+const destinationFilter = document.getElementById("destinationFilter");
+const daysFilter = document.getElementById("daysFilter");
+const daysValue = document.getElementById("daysValue");
+const resultCount = document.getElementById("resultCount");
+
+if (packageGrid) {
+  [budgetFilter, travelTypeFilter, destinationFilter].forEach((control) => {
+    control?.addEventListener("change", renderPackages);
+  });
+
+  daysFilter?.addEventListener("input", () => {
+    daysValue.textContent = `${daysFilter.value} days`;
+    renderPackages();
+  });
+
+  renderPackages();
+}
+
+function renderPackages() {
+  const budget = budgetFilter?.value || "all";
+  const type = travelTypeFilter?.value || "all";
+  const destination = destinationFilter?.value || "all";
+  const selectedDays = Number(daysFilter?.value || 5);
+
+  const filtered = standardPackages.filter((pkg) => {
+    const budgetMatch = budget === "all" || pkg.budget === budget;
+    const typeMatch = type === "all" || pkg.travelTypes.includes(type);
+    const destinationMatch = destination === "all" || pkg.category === destination;
+    const dayMatch = selectedDays >= pkg.minDays && selectedDays <= pkg.maxDays;
+    return budgetMatch && typeMatch && destinationMatch && dayMatch;
+  });
+
+  resultCount.textContent = `${filtered.length} packages found`;
+  packageGrid.innerHTML = "";
+
+  if (filtered.length === 0) {
+    packageGrid.innerHTML = `<p class="no-results">No package found for current filters. Try changing budget, travel type, destination, or days.</p>`;
+    return;
+  }
+
+  filtered.forEach((pkg) => {
+    const card = document.createElement("article");
+    card.className = "package-card";
+    card.innerHTML = `
+      <div class="card-top">
+        <h4>${pkg.name}</h4>
+        <span class="budget-tag">${capitalize(pkg.budget)}</span>
+      </div>
+      <p class="meta-line"><strong>Travel Type:</strong> ${pkg.travelTypes.map(capitalize).join(", ")}</p>
+      <p class="meta-line"><strong>Destination Type:</strong> ${capitalize(pkg.category)}</p>
+      <p class="meta-line"><strong>Places:</strong> ${pkg.places.join(", ")}</p>
+      <label class="itinerary-picker">
+        Itinerary Plan:
+        <select class="itinerary-select">
+          ${pkg.itineraryDays.map((d) => `<option value="${d}">${d} Days</option>`).join("")}
+        </select>
+      </label>
+      <div class="itinerary-text"></div>
+    `;
+
+    const select = card.querySelector(".itinerary-select");
+    const itineraryBox = card.querySelector(".itinerary-text");
+
+    const updateItinerary = () => {
+      const days = Number(select.value);
+      itineraryBox.textContent = buildItinerary(pkg, days);
+    };
+
+    select.addEventListener("change", updateItinerary);
+    updateItinerary();
+    packageGrid.appendChild(card);
   });
 }
 
-if (closeBtn && modal) {
-  closeBtn.addEventListener("click", () => {
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-  });
+function buildItinerary(pkg, days) {
+  const places = pkg.places;
+  if (days === 3) {
+    return `3 Days Itinerary: Day 1 arrival + ${places[0]}; Day 2 explore ${places.slice(1, 3).join(" & ") || places[0]}; Day 3 local sightseeing + return.`;
+  }
+  if (days === 5) {
+    return `5 Days Itinerary: Day 1 arrival; Day 2 ${places[0]}; Day 3 ${places[1] || places[0]}; Day 4 ${places[2] || places[0]}; Day 5 shopping + departure.`;
+  }
+  if (days === 7) {
+    return `7 Days Itinerary: Balanced tour covering ${places.slice(0, 4).join(", ")} with leisure breaks, local food experiences, and transfer support.`;
+  }
+  return `10 Days Itinerary: Extended journey covering ${places.join(", ")} with relaxed pacing, extra activities, local culture, and comfort-focused travel.`;
 }
 
-if (chatForm) {
-  chatForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const text = chatInput.value.trim();
-    if (!text) return;
-
-    addUserMessage(text);
-    const reply = recommendPackage(text);
-    addAIMessage(reply);
-    chatInput.value = "";
-  });
-}
-
-function addUserMessage(text) {
-  appendMessage(text, "user");
-}
-
-function addAIMessage(text) {
-  appendMessage(text, "ai");
-}
-
-function appendMessage(text, type) {
-  if (!chatLog) return;
-  const p = document.createElement("p");
-  p.className = `msg ${type}`;
-  p.textContent = text;
-  chatLog.appendChild(p);
-  chatLog.scrollTop = chatLog.scrollHeight;
-}
-
-function recommendPackage(input) {
-  const q = input.toLowerCase();
-
-  if (q.includes("manali") || q.includes("mountain") || q.includes("hill")) {
-    return `Recommended Package: Manali Hill Escape\n\nPlaces Covered: Manali, Solang Valley, Rohtang Pass, Atal Tunnel, Kullu, Manikaran\nIdeal Duration: 5 to 6 days\nSample Itinerary:\nDay 1: Arrival in Manali, Mall Road, local market\nDay 2: Solang Valley activities + Atal Tunnel drive\nDay 3: Rohtang Pass excursion (weather permitting)\nDay 4: Kullu sightseeing + river point + shawl market\nDay 5: Manikaran temple visit and return\nBest For: Families/couples looking for scenic weather and budget comfort.`;
-  }
-
-  if (q.includes("beach") || q.includes("goa") || q.includes("andaman")) {
-    return `Recommended Package: Goa Fun Holiday\n\nPlaces Covered: North Goa Beaches, South Goa Beaches\nIdeal Duration: 4 to 5 days\nSample Itinerary:\nDay 1: Arrival + Baga/Calangute evening\nDay 2: North Goa tour (Fort Aguada, Candolim, Anjuna)\nDay 3: South Goa tour (Colva, Miramar, Dona Paula)\nDay 4: Water sports / cruise / shopping\nDay 5: Leisure breakfast + departure\nAlternate Island Option: Andaman Island Tour for 6 to 7 days (Port Blair, Havelock, Neil Island, Ross Island).`;
-  }
-
-  if (q.includes("temple") || q.includes("pilgrimage") || q.includes("darshan")) {
-    return `Recommended Package: Tirupati Balaji Darshan\n\nPlaces Covered: Tirupati, Tirumala\nIdeal Duration: 2 to 3 days\nSample Itinerary:\nDay 1: Arrival, local temple visits, stay in Tirupati\nDay 2: Early morning Tirumala darshan\nDay 3: Optional local temples + return\nFor Longer Spiritual Trip: Kashi – Prayagraj – Ayodhya (5 to 6 days).`;
-  }
-
-  if (q.includes("history") || q.includes("heritage") || q.includes("culture")) {
-    return `Recommended Package: Rajasthan Royal Tour\n\nPlaces Covered: Jaipur, Jodhpur, Udaipur\nIdeal Duration: 6 to 7 days\nSample Itinerary:\nDay 1-2: Jaipur (Amber Fort, City Palace, Hawa Mahal)\nDay 3-4: Jodhpur (Mehrangarh Fort, old city walk)\nDay 5-6: Udaipur (City Palace, Lake Pichola, Sajjangarh)\nDay 7: Departure\nShort Option: Agra Heritage Tour (2 days).`;
-  }
-
-  if (q.includes("adventure") || q.includes("road trip") || q.includes("bike") || q.includes("ladakh") || q.includes("spiti")) {
-    return `Recommended Package: Spiti Valley Road Trip\n\nPlaces Covered: Spiti Valley, Kaza, Key Monastery, Chandratal\nIdeal Duration: 7 to 8 days\nSample Itinerary:\nDay 1: Shimla to Narkanda\nDay 2: Narkanda to Kalpa\nDay 3: Kalpa to Kaza\nDay 4: Kaza local + Key Monastery\nDay 5: Kaza villages + high-altitude views\nDay 6: Kaza to Chandratal\nDay 7-8: Return via Manali route\nAlternative: Leh-Ladakh Adventure for 7 days.`;
-  }
-
-  return `Suggested Package: Shimla – Kufri Delight\n\nPlaces Covered: Shimla, Kufri, Green Valley, Jakhoo Temple\nIdeal Duration: 4 days\nSample Itinerary:\nDay 1: Arrival + Mall Road + Ridge\nDay 2: Kufri and Green Valley\nDay 3: Jakhoo Temple and local exploration\nDay 4: Leisure morning + departure\n\nTip: Share your preferred destination type (mountain/beach/temple/heritage/adventure), travel days, and group size for a more customized plan.`;
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
 }

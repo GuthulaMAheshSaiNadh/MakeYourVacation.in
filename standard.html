@@ -6,10 +6,10 @@
     <title>Makeyourvacation.in | Standard Packages</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body class="standard-theme">
+  <body class="standard-theme standard-page-v2">
     <header class="site-header">
       <div>
-        <p class="brand-tag">Affordable Comfort Trips</p>
+        <p class="brand-tag">Smart Budget-Friendly Trips</p>
         <h1>Makeyourvacation.in</h1>
       </div>
       <nav>
@@ -20,89 +20,63 @@
       </nav>
     </header>
 
-    <main class="content-wrapper">
-      <section class="intro-card">
-        <h2>Standard Packages for Smart Travelers</h2>
+    <main class="content-wrapper standard-layout">
+      <section class="standard-hero-card">
+        <h2>Find Your Perfect Standard Package</h2>
         <p>
-          User-friendly package planning with practical budgets, clear routes,
-          and destination-focused options.
+          Filter by budget, travel style, destination type, and number of days. Every package
+          includes ready options for 3, 5, 7, and 10-day itineraries.
         </p>
-        <button id="openAiAssistant" class="primary-btn">Talk to AI Travel Helper</button>
       </section>
 
-      <section class="visual-banner">
-        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1600&q=80" alt="Tour planning visual" />
+      <section class="filter-panel" id="filterPanel">
+        <label>
+          Budget
+          <select id="budgetFilter">
+            <option value="all">All Budgets</option>
+            <option value="economy">Economy</option>
+            <option value="value">Value</option>
+            <option value="premium">Premium</option>
+          </select>
+        </label>
+
+        <label>
+          Travel Type
+          <select id="travelTypeFilter">
+            <option value="all">All Travel Types</option>
+            <option value="solo">Solo</option>
+            <option value="couple">Couple</option>
+            <option value="family">Family</option>
+            <option value="friends">Friends Group</option>
+          </select>
+        </label>
+
+        <label>
+          Destination
+          <select id="destinationFilter">
+            <option value="all">All Destinations</option>
+            <option value="mountains">Mountains</option>
+            <option value="beach">Beaches</option>
+            <option value="pilgrimage">Pilgrimage</option>
+            <option value="heritage">Heritage</option>
+            <option value="adventure">Adventure</option>
+          </select>
+        </label>
+
+        <label class="days-filter">
+          Days (2 - 30)
+          <input id="daysFilter" type="range" min="2" max="30" value="5" />
+          <span id="daysValue">5 days</span>
+        </label>
       </section>
 
-      <section class="packages-section">
-        <h3>Popular Standard Packages (Itinerary Places)</h3>
-        <div class="category-grid">
-          <article>
-            <h4>MOUNTAINS & HILL STATIONS</h4>
-            <ul>
-              <li><strong>Manali Hill Escape:</strong> Manali, Solang Valley, Rohtang Pass, Atal Tunnel, Kullu, Manikaran</li>
-              <li><strong>Shimla – Kufri Delight:</strong> Shimla, Kufri, Green Valley, Jakhoo Temple</li>
-              <li><strong>Munnar Nature Retreat:</strong> Munnar, Tea Gardens, Eravikulam National Park, Mattupetty Dam, Echo Point</li>
-              <li><strong>Coorg Coffee Trails:</strong> Coorg, Abbey Falls, Dubare Elephant Camp, Raja’s Seat</li>
-              <li><strong>Darjeeling Himalayan Tour:</strong> Darjeeling, Tiger Hill, Tea Estates, Ropeway</li>
-            </ul>
-          </article>
-
-          <article>
-            <h4>BEACH HOLIDAY PACKAGES</h4>
-            <ul>
-              <li><strong>Goa Fun Holiday:</strong> Goa, North Goa Beaches, South Goa Beaches</li>
-              <li><strong>Varkala – Kovalam Beach Escape:</strong> Varkala, Kovalam</li>
-              <li><strong>Andaman Island Tour:</strong> Andaman & Nicobar Islands, Port Blair, Havelock Island, Neil Island, Ross Island</li>
-              <li><strong>Gokarna Spiritual Beach Tour:</strong> Gokarna, Om Beach, Kudle Beach, Half Moon Beach, Paradise Beach</li>
-            </ul>
-          </article>
-
-          <article>
-            <h4>PILGRIMAGE & SPIRITUAL PACKAGES</h4>
-            <ul>
-              <li><strong>Tirupati Balaji Darshan:</strong> Tirupati, Tirumala</li>
-              <li><strong>Kashi – Prayagraj – Ayodhya:</strong> Varanasi, Prayagraj, Ayodhya</li>
-              <li><strong>Vaishno Devi Yatra:</strong> Vaishno Devi, Katra</li>
-              <li><strong>South India Temple Tour:</strong> Rameswaram, Madurai, Tirupati</li>
-            </ul>
-          </article>
-
-          <article>
-            <h4>HERITAGE & CULTURAL PACKAGES</h4>
-            <ul>
-              <li><strong>Rajasthan Royal Tour:</strong> Jaipur, Jodhpur, Udaipur</li>
-              <li><strong>Agra Heritage Tour:</strong> Agra</li>
-              <li><strong>Hampi Historical Tour:</strong> Hampi</li>
-            </ul>
-          </article>
-
-          <article>
-            <h4>ADVENTURE & ROAD TRIP PACKAGES</h4>
-            <ul>
-              <li><strong>Leh – Ladakh Adventure:</strong> Leh, Nubra Valley, Pangong Lake, Khardung La</li>
-              <li><strong>Spiti Valley Road Trip:</strong> Spiti Valley, Kaza, Key Monastery, Chandratal</li>
-              <li><strong>Coastal Karnataka Road Trip:</strong> Murudeshwar, Gokarna, Honnavar, Jog Falls, Yana Caves</li>
-            </ul>
-          </article>
-        </div>
+      <section class="results-head">
+        <h3>Available Packages</h3>
+        <p id="resultCount">0 packages found</p>
       </section>
+
+      <section id="packageGrid" class="package-grid"></section>
     </main>
-
-    <div id="aiModal" class="ai-modal" aria-hidden="true">
-      <div class="ai-box">
-        <div class="ai-header">
-          <h3>AI Travel Helper</h3>
-          <button id="closeAiAssistant" aria-label="Close AI chat">×</button>
-        </div>
-        <p class="ai-prompt">Hello 👋 Where do you want to go? Share destination, interests, days, budget, and who is traveling.</p>
-        <div id="chatLog" class="chat-log"></div>
-        <form id="chatForm" class="chat-form">
-          <input id="chatInput" type="text" placeholder="Example: Family beach trip for 5 days, budget friendly" required />
-          <button type="submit">Send</button>
-        </form>
-      </div>
-    </div>
 
     <script src="script.js"></script>
   </body>

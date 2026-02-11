@@ -620,3 +620,172 @@ footer { text-align: center; padding: 1.1rem; color: #666; }
   from { transform: translateY(8px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+/* Standard page v2 */
+.standard-page-v2 {
+  background: linear-gradient(180deg, #f5f9ff, #f9fbff 35%, #eef5ff);
+}
+
+.standard-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.standard-hero-card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #dbeafe;
+  box-shadow: 0 12px 28px rgba(30, 64, 175, 0.12);
+  padding: 1rem 1.2rem;
+}
+
+.filter-panel {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 0.8rem;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #dbeafe;
+  padding: 0.9rem;
+}
+
+.filter-panel label {
+  display: grid;
+  gap: 0.32rem;
+  font-weight: 600;
+  color: #1e3a8a;
+  font-size: 0.9rem;
+}
+
+.filter-panel select,
+.filter-panel input[type="range"] {
+  width: 100%;
+}
+
+.filter-panel select {
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 0.48rem;
+  background: #f8fbff;
+}
+
+.days-filter span {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.results-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+}
+
+.results-head h3,
+.results-head p {
+  margin: 0;
+}
+
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.9rem;
+}
+
+.package-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #dbeafe;
+  padding: 0.95rem;
+  box-shadow: 0 10px 24px rgba(30, 64, 175, 0.1);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.card-top h4 {
+  margin: 0;
+}
+
+.budget-tag {
+  background: #dbeafe;
+  color: #1e3a8a;
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+  font-weight: 700;
+  font-size: 0.78rem;
+}
+
+.meta-line {
+  margin: 0.42rem 0;
+  font-size: 0.9rem;
+}
+
+.itinerary-picker {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+  font-weight: 600;
+}
+
+.itinerary-picker select {
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 0.4rem;
+}
+
+.itinerary-text {
+  margin-top: 0.55rem;
+  background: #eff6ff;
+  border-radius: 10px;
+  border: 1px solid #bfdbfe;
+  padding: 0.65rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.no-results {
+  margin: 0;
+  background: #fff;
+  border: 1px dashed #93c5fd;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+@media (max-width: 900px) {
+  .filter-panel {
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .standard-layout {
+    gap: 0.8rem;
+  }
+
+  .standard-hero-card {
+    border-radius: 12px;
+    padding: 0.9rem;
+  }
+
+  .filter-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .results-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+
+  .package-grid {
+    grid-template-columns: 1fr;
+  }
+}
