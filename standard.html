@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Makeyourvacation.in | Standard Packages</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="standard-theme standard-page-v2">
+    <header class="site-header standard-header-clean">
+      <div>
+        <p class="brand-tag">Smart Budget-Friendly Trips</p>
+        <h1>Makeyourvacation.in</h1>
+      </div>
+      <button class="profile-icon-btn" aria-label="Profile">
+        <span>👤</span>
+      </button>
+    </header>
+
+    <main class="content-wrapper standard-layout">
+      <section class="filter-panel" id="filterPanel">
+        <label class="budget-range-group">
+          Budget Range (₹299 - ₹39,000)
+          <div class="budget-text-wrap">
+            <input id="budgetMin" type="number" min="299" max="39000" value="299" step="100" placeholder="Min ₹" />
+            <input id="budgetMax" type="number" min="299" max="39000" value="39000" step="100" placeholder="Max ₹" />
+          </div>
+          <span id="budgetRangeValue">Range: ₹299 - ₹39,000</span>
+        </label>
+
+        <label>
+          Travel Type
+          <select id="travelTypeFilter">
+            <option value="all">All Travel Types</option>
+            <option value="solo">Solo</option>
+            <option value="couple">Couple</option>
+            <option value="family">Family</option>
+            <option value="friends">Friends Group</option>
+          </select>
+        </label>
+
+        <label>
+          Destination
+          <select id="destinationFilter">
+            <option value="all">All Destinations</option>
+            <option value="mountains">Mountains</option>
+            <option value="beach">Beaches</option>
+            <option value="pilgrimage">Pilgrimage</option>
+            <option value="heritage">Heritage</option>
+            <option value="adventure">Adventure</option>
+          </select>
+        </label>
+
+        <label class="days-filter">
+          Days (2 - 30)
+          <input id="daysFilter" type="range" min="2" max="30" value="5" />
+          <span id="daysValue">5 days</span>
+        </label>
+
+        <button id="findPackageBtn" class="find-package-btn" type="button">Find My Package</button>
+      </section>
+
+      <section id="aiResultCard" class="ai-result-card" hidden></section>
+
+
+
+      <section class="optional-places" id="optionalPlacesSection">
+        <div class="optional-head">
+          <h3>Optional Places (Based on Destination)</h3>
+          <p id="optionalPlacesSub">Showing popular places for selected destination.</p>
+        </div>
+        <div id="optionalPlacesGrid" class="optional-places-grid"></div>
+      </section>
+
+      <section class="results-head">
+        <h3>Available Packages</h3>
+        <p id="resultCount">0 packages found</p>
+      </section>
+
+      <section id="packageGrid" class="package-grid"></section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
