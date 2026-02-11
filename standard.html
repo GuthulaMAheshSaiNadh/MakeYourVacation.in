@@ -24,14 +24,18 @@
       <section class="intro-card">
         <h2>Standard Packages for Smart Travelers</h2>
         <p>
-          This page is designed for middle-class and standard-friendly travel planning:
-          simple, user friendly, and packed with great value destinations.
+          User-friendly package planning with practical budgets, clear routes,
+          and destination-focused options.
         </p>
         <button id="openAiAssistant" class="primary-btn">Talk to AI Travel Helper</button>
       </section>
 
+      <section class="visual-banner">
+        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1600&q=80" alt="Tour planning visual" />
+      </section>
+
       <section class="packages-section">
-        <h3>Popular Standard Packages (Itinerary Without Days)</h3>
+        <h3>Popular Standard Packages (Itinerary Places)</h3>
         <div class="category-grid">
           <article>
             <h4>MOUNTAINS & HILL STATIONS</h4>
@@ -91,10 +95,10 @@
           <h3>AI Travel Helper</h3>
           <button id="closeAiAssistant" aria-label="Close AI chat">×</button>
         </div>
-        <p class="ai-prompt">Hello 👋 Where do you want to go? Tell me your plan and budget style.</p>
+        <p class="ai-prompt">Hello 👋 Where do you want to go? Share destination, interests, days, budget, and who is traveling.</p>
         <div id="chatLog" class="chat-log"></div>
         <form id="chatForm" class="chat-form">
-          <input id="chatInput" type="text" placeholder="Type your destination, interests, budget, etc." required />
+          <input id="chatInput" type="text" placeholder="Example: Family beach trip for 5 days, budget friendly" required />
           <button type="submit">Send</button>
         </form>
       </div>
