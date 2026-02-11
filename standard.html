@@ -7,37 +7,25 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="standard-theme standard-page-v2">
-    <header class="site-header">
+    <header class="site-header standard-header-clean">
       <div>
         <p class="brand-tag">Smart Budget-Friendly Trips</p>
         <h1>Makeyourvacation.in</h1>
       </div>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="standard.html" class="active">Standard</a>
-        <a href="luxury.html">Luxury</a>
-        <a href="super-luxury.html">Super Luxury</a>
-      </nav>
+      <button class="profile-icon-btn" aria-label="Profile">
+        <span>👤</span>
+      </button>
     </header>
 
     <main class="content-wrapper standard-layout">
-      <section class="standard-hero-card">
-        <h2>Find Your Perfect Standard Package</h2>
-        <p>
-          Filter by budget, travel style, destination type, and number of days. Every package
-          includes ready options for 3, 5, 7, and 10-day itineraries.
-        </p>
-      </section>
-
       <section class="filter-panel" id="filterPanel">
-        <label>
-          Budget
-          <select id="budgetFilter">
-            <option value="all">All Budgets</option>
-            <option value="economy">Economy</option>
-            <option value="value">Value</option>
-            <option value="premium">Premium</option>
-          </select>
+        <label class="budget-range-group">
+          Budget Range (₹299 - ₹39,000)
+          <div class="dual-range-wrap">
+            <input id="budgetMin" type="range" min="299" max="39000" value="299" step="100" />
+            <input id="budgetMax" type="range" min="299" max="39000" value="39000" step="100" />
+          </div>
+          <span id="budgetRangeValue">₹299 - ₹39,000</span>
         </label>
 
         <label>
@@ -68,7 +56,11 @@
           <input id="daysFilter" type="range" min="2" max="30" value="5" />
           <span id="daysValue">5 days</span>
         </label>
+
+        <button id="findPackageBtn" class="find-package-btn" type="button">Find My Package</button>
       </section>
+
+      <section id="aiResultCard" class="ai-result-card" hidden></section>
 
       <section class="results-head">
         <h3>Available Packages</h3>
