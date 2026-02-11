@@ -59,6 +59,8 @@ const budgetMax = document.getElementById("budgetMax");
 const budgetRangeValue = document.getElementById("budgetRangeValue");
 const findPackageBtn = document.getElementById("findPackageBtn");
 const aiResultCard = document.getElementById("aiResultCard");
+const optionalPlacesGrid = document.getElementById("optionalPlacesGrid");
+const optionalPlacesSub = document.getElementById("optionalPlacesSub");
 
 if (packageGrid) {
   [travelTypeFilter, destinationFilter].forEach((control) => {
@@ -70,27 +72,31 @@ if (packageGrid) {
     renderPackages();
   });
 
-  [budgetMin, budgetMax].forEach((slider) => {
-    slider?.addEventListener("input", syncBudgetRange);
+  [budgetMin, budgetMax].forEach((input) => {
+    input?.addEventListener("input", syncBudgetRange);
   });
 
   findPackageBtn?.addEventListener("click", findBestPackage);
   syncBudgetRange();
   renderPackages();
+  renderOptionalPlaces();
 }
 
 function syncBudgetRange() {
   if (!budgetMin || !budgetMax) return;
-  let minVal = Number(budgetMin.value);
-  let maxVal = Number(budgetMax.value);
+  let minVal = Number(budgetMin.value || 299);
+  let maxVal = Number(budgetMax.value || 39000);
+
+  minVal = Math.max(299, Math.min(39000, minVal));
+  maxVal = Math.max(299, Math.min(39000, maxVal));
 
   if (minVal > maxVal) {
     [minVal, maxVal] = [maxVal, minVal];
-    budgetMin.value = minVal;
-    budgetMax.value = maxVal;
   }
 
-  budgetRangeValue.textContent = `₹${formatNum(minVal)} - ₹${formatNum(maxVal)}`;
+  budgetMin.value = String(minVal);
+  budgetMax.value = String(maxVal);
+  budgetRangeValue.textContent = `Range: ₹${formatNum(minVal)} - ₹${formatNum(maxVal)}`;
   renderPackages();
 }
 
@@ -112,6 +118,7 @@ function getFilteredPackages() {
 
 function renderPackages() {
   if (!packageGrid) return;
+  renderOptionalPlaces();
   const filtered = getFilteredPackages();
 
   resultCount.textContent = `${filtered.length} packages found`;
@@ -163,7 +170,7 @@ function findBestPackage() {
 
   if (!filtered.length) {
     aiResultCard.hidden = false;
-    aiResultCard.innerHTML = `<h3>AI Package Suggestion</h3><p>No matching package found for your inputs. Please adjust filters and try again.</p>`;
+    aiResultCard.innerHTML = `<h3>Package Suggestion</h3><p>No matching package found for your inputs. Please adjust filters and try again.</p>`;
     return;
   }
 
@@ -183,7 +190,7 @@ function findBestPackage() {
 
   aiResultCard.hidden = false;
   aiResultCard.innerHTML = `
-    <h3>AI Package Suggestion</h3>
+    <h3>Package Suggestion</h3>
     <div class="ai-package-layout">
       <img src="${best.image}" alt="${best.name}" class="ai-package-image" />
       <div>
@@ -229,6 +236,32 @@ function buildItinerary(pkg, days) {
     return `Day-wise 7-day plan includes ${places.slice(0, 4).join(", ")} with activity slots, comfort travel, and dedicated local food experiences.`;
   }
   return `10-day extended itinerary covers ${places.join(", ")} with relaxed pacing, major activities, scenic time, and comfort-focused stay planning.`;
+}
+
+
+
+const destinationOptionalMap = {
+  mountains: ["Auli", "Nainital", "Kasol", "Tawang", "Sikkim viewpoints"],
+  beach: ["Alleppey Backwaters", "Diu Beach", "Puri", "Pondicherry", "Lakshadweep coast"],
+  pilgrimage: ["Haridwar", "Rishikesh", "Shirdi", "Ujjain", "Kanchipuram"],
+  heritage: ["Khajuraho", "Mysore Palace", "Fatehpur Sikri", "Mandu", "Konark"],
+  adventure: ["Rishikesh rafting", "Bir Billing", "Meghalaya caves", "Zanskar trail", "Sahyadri trek"],
+  all: ["Jaipur", "Goa", "Manali", "Varanasi", "Andaman"]
+};
+
+function renderOptionalPlaces() {
+  if (!optionalPlacesGrid) return;
+  const selected = destinationFilter?.value || "all";
+  const key = destinationOptionalMap[selected] ? selected : "all";
+  const list = destinationOptionalMap[key];
+
+  optionalPlacesSub.textContent = selected === "all"
+    ? "Showing mixed tourist places across destinations."
+    : `Showing tourist places for ${capitalize(selected)} destination.`;
+
+  optionalPlacesGrid.innerHTML = list
+    .map((place) => `<span class="optional-chip">${place}</span>`)
+    .join("");
 }
 
 function capitalize(text) {
